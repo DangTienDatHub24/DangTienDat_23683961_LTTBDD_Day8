@@ -16,10 +16,10 @@ export function CartScreen({ navigation }: TabScreenProps<"Cart">) {
   const { isLoggedIn } = useAuth();
   const finalTotal = totalPrice; // TODO BT8.C2 (thử thách): trừ mã giảm giá → finalTotal = totalPrice - discount
 
-  // TODO BT8.7a: xóa sản phẩm có XÁC NHẬN — dùng confirmDialog(title, message, onConfirm) đã viết sẵn ở utils/dialog.ts
-  //   (Alert.alert không chạy trên web nên đã bọc sẵn). Hiện tại xóa ngay không hỏi.
   const askRemove = (bookId: number) => {
-    remove(bookId);
+    const item = items.find((entry) => entry.bookId === bookId);
+    if (!item) return;
+    confirmDialog("Xóa sản phẩm", `Xóa "${item.title}" khỏi giỏ hàng?`, () => remove(bookId));
   };
 
   const goCheckout = () => {
